@@ -8,7 +8,7 @@ dotenv.config();
 const app = express();
 
 app.get("/", (req,res) => {
-    res.send("HOLA BRO")
+    res.send("HOLA BROo")
 });
 
 app.post("/register", async (req, res) => {

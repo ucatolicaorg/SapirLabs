@@ -48,8 +48,7 @@ La app debe conectarse a una **API externa** que suministre nuevos ejercicios ca
 
 ### **Seguridad**
  Cifrado de contraseñas mediante **bcrypt** o similar.  
- Implementación de **JWT** para autenticación segura.  
- Protección contra ataques **XSS y CSRF**.  
+ Implementación de **JWT** para autenticación segura.    
 
 ### **Disponibilidad y Conectividad**
  La aplicación debe estar disponible **24/7** en la nube.  
