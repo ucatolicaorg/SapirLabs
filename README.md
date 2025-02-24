@@ -1,5 +1,8 @@
 # **SapirLabs**
 
+<img src="docs/logoSapirLabs" alt= "Logo de Sapir Labs" width = 200>
+
+
 ## 📌 **Descripción del Proyecto**
 Esta aplicación web está diseñada para ayudar a los estudiantes de Ingeniería de Sistemas a fortalecer sus conocimientos en **Inglés, Programación y Matemáticas** a través de ejercicios interactivos y maratones de programación.
 
