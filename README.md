@@ -1,6 +1,7 @@
-# **SapirLabs**
+# **SapirLabs** 
 
-<img src="docs/logoSapirLabs" alt= "Logo de Sapir Labs" width = 200>
+<img src="docs/logoSapirLabs.jpg" alt= "Logo de Sapir Labs" width = 1000 height = 600>
+
 
 
 ## 📌 **Descripción del Proyecto**
