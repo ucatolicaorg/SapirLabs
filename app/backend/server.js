@@ -12,7 +12,7 @@ app.get("/", (req,res) => {
 
 
 app.listen(5000, () => {
-
+    connectDB();
     console.log("El servidor inicio en http://localhost:5000");
 
 });
