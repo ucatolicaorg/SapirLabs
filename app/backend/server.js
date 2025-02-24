@@ -7,7 +7,7 @@ dotenv.config();
 const app = express();
 
 app.get("/", (req,res) => {
-    res.send("HOLA MAMI")
+    res.send("HOLA MUNDO")
 })
 
 
