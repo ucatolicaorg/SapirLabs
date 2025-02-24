@@ -17,26 +17,11 @@ Esta aplicación web está diseñada para ayudar a los estudiantes de Ingenierí
 - **Autenticación:** JWT y OAuth (Google/Microsoft)
 - **APIs Externas:** Para la gestión de maratones de programación
 
-## 📂 **Estructura del Proyecto**
-```
-📦 sistema-gestion-academica
- ┣ 📂 app
- ┃ ┣ 📂 backend
- ┃ ┣ 📂 frontend
- ┣ 📂 docs
- ┃ ┣ 📜 requisitos.md
- ┃ ┣ 📜 arquitectura.md
- ┣ 📜 README.md
- ┣ 📜 CONTRIBUYENDO.md
- ┣ 📜 LICENCIA
- ┗ 📜 .gitignore
-```
-
 ## 🚀 **Instalación y Configuración**
 ### **1️⃣ Clonar el repositorio**
 ```bash
-git clone https://github.com/tu-usuario/sistema-gestion-academica.git
-cd sistema-gestion-academica
+git clone https://github.com/Sherlock1710/SapirLabs.git
+cd SapirLabs
 ```
 ### **2️⃣ Configurar el Backend**
 ```bash
