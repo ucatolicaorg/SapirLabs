@@ -29,9 +29,9 @@ app.post("/register", async (req, res) => {
     }
 });
 
-app.listen(5000, () => {
+app.listen(PORT, '0.0.0.0', () => {
     connectDB();
-    console.log("El servidor inicio en http://localhost:5000");
+    console.log(`Servidor backend corriendo en http://0.0.0.0:${PORT}`);
 
 });
 
