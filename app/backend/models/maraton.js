@@ -21,3 +21,8 @@ const maratonSchema = mongoose.Schema({
     generado_IA: {type: Boolean},
     modelo_usado: {type:String},
 });
+
+
+const Maraton = mongoose.model('Maraton', maratonSchema);
+
+export default Maraton;
