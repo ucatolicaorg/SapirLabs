@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const Problemas = mongoose.Schema({
+const problema = mongoose.Schema({
     id_problemas: {type: String, require: true},
     titulo: {type: String, require: true},
     descripcion: {type: String, require: true},
