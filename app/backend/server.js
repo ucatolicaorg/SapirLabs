@@ -11,6 +11,10 @@ app.get("/", (req,res) => {
     res.send("HOLA BROo")
 });
 
+app.get("/register", (req, res) => {
+    res.send("Hola Marian")
+})
+
 app.post("/register", async (req, res) => {
     const usuario = req.body;
 
@@ -31,9 +35,9 @@ app.post("/register", async (req, res) => {
 
 const PORT = 5000;
 
-app.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, 'localhost', () => {
     connectDB();
-    console.log(`Servidor backend corriendo en http://0.0.0.0:${PORT}`);
+    console.log(`Servidor backend corriendo en http://localhost:${PORT}`);
 
 });
 
