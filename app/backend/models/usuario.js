@@ -5,6 +5,7 @@ const usuarioSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     level: { type: Number, required: true, default: 0},
+    tipo: { type: String, required: true, default: "estudiante"}
 }, {
     timestamps : true //Created at, updated at
 });
