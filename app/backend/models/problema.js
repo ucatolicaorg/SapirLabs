@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+
 const problema = mongoose.Schema({
     id_problemas: {type: String, require: true},
     titulo: {type: String, require: true},
@@ -12,3 +13,7 @@ const problema = mongoose.Schema({
     soluciones: {type: String, Array: ["Solucion"], require: true},
     fecha_creacion: {type: Date, default: Date.now}
 })
+
+const Problema = mongoose.model("Problema", problemaSchema);
+
+export default Promema;
