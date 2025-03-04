@@ -8,3 +8,7 @@ const evaluacionSchema = mongoose.Schema({
     puntuacion: { type: Number, require: true },
     fecha_evaluacion: { type: Date, require: true}
 });
+
+const Evaluacion = mongoose.mode1('Evaluacion', evaluacionSchema);
+
+export default Evaluacion;
