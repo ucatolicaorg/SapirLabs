@@ -12,12 +12,12 @@ const problema = mongoose.Schema({
     autor: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
     soluciones: {type: String, Array: ["Solucion"], require: true},
     fecha_creacion: {type: Date, default: Date.now}
-<<<<<<< HEAD
+
 })
-=======
+
 })
 
 const Problema = mongoose.model("Problema", problemaSchema);
 
 export default Problema;
->>>>>>> 381448d (set)
+
