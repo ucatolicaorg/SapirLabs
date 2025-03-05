@@ -1,43 +1,43 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import { connectDB } from './config/db.js';
-import Usuario from './models/usuario.js';
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import cors from "cors";
+import morgan from "morgan";
 
-dotenv.config();
+// Importar rutas
+import usuarioRoutes from "./routes/usuarioRoutes.js";
+import genIARoutes from "./routes/genIARoutes.js";
+import maratonRoutes from "./routes/maratonRoutes.js";
+
+dotenv.config(); // Cargar variables de entorno
 
 const app = express();
 
-app.get("/", (req,res) => {
-    res.send("HOLA BROo")
-});
+// Middlewares
+app.use(express.json()); // Permite recibir JSON en las peticiones
+app.use(cors()); // Habilita CORS
+app.use(morgan("dev")); // Muestra logs de las peticiones en consola
 
-app.get("/register", (req, res) => {
-    res.send("Hola Marian")
+// Conectar a MongoDB
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 })
+.then(() => console.log(" Conectado a MongoDB"))
+.catch(err => console.error(" Error al conectar MongoDB:", err));
 
-app.post("/register", async (req, res) => {
-    const usuario = req.body;
+// Rutas
+app.use("/api/usuarios", usuarioRoutes);
+app.use("/api/genIA", genIARoutes);
+app.use("/api/maratones", maratonRoutes);
 
-    if(!usuario.nombre || !usuario.email || !usuario.password || !usuario.level){
-        return res.status(400).json({succes: false, message: "Ingrese todos los datos"});
-    }
-
-    const newUsuario = new Usuario(usuario)
-
-    try {
-        await newUsuario.save();
-        res.status(201).json({succes: true, data: newUsuario})
-    } catch (error) {
-        console.error("Error al registrar el usuario", error.message)
-        res.status(500).json({succes: false, message: "Error del servidor"})
-    }
+// Ruta de prueba
+app.get("/", (req, res) => {
+  res.send("API funcionando correctamente");
 });
 
-const PORT = 5000;
-
-app.listen(PORT, 'localhost', () => {
-    connectDB();
-    console.log(`Servidor backend corriendo en http://localhost:${PORT}`);
-
+// Iniciar servidor
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(` Servidor corriendo en http://localhost:${PORT}`);
 });
-
