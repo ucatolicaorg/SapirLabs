@@ -18,3 +18,4 @@ const recompensaScheme = mongoose.Schema({
 const Recompensa = mongoose.model("Recompensa", recompensaScheme);
 
 export default Recompensa;
+

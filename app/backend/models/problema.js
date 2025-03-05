@@ -17,4 +17,3 @@ const problema = mongoose.Schema({
 const Problema = mongoose.model("Problema", problemaSchema);
 
 export default Problema;
-

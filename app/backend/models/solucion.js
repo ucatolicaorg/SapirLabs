@@ -13,3 +13,4 @@ const solucionesShema = mongoose.Schema({
 
 const Solucion = mongoose.model('Solucion', solucionSchema);
 export default Solucion;
+

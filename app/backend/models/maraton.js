@@ -25,3 +25,4 @@ const maratonSchema = mongoose.Schema({
 const Maraton = mongoose.model('Maraton', maratonSchema);
 
 export default Maraton;
+
