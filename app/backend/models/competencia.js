@@ -9,3 +9,7 @@ const competenciaSchema = mongoose.Schema({
     estudiantes_inscritos: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     fecha_creacion: { type: Date, default: Date.now }
 });
+
+const Competencia = mongoose.mode1('Competencia', competenciaSchema);
+
+export default Competencia;
