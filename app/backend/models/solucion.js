@@ -10,3 +10,6 @@ const solucionesShema = mongoose.Schema({
     puntuacion:{type: number, required: true},
     fecha_envio:{type: Date, required: true},
 })
+
+const Solucion = mongoose.model('Solucion', solucionSchema);
+export default Solucion;
