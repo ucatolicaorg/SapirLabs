@@ -1,4 +1,3 @@
-import { MongoOIDCError } from "mongodb";
 import mongoose from "mongoose";
 import Usuario from "./usuario";
 
