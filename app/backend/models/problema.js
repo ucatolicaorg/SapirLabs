@@ -14,9 +14,6 @@ const problema = mongoose.Schema({
     fecha_creacion: {type: Date, default: Date.now}
 
 })
-
-})
-
 const Problema = mongoose.model("Problema", problemaSchema);
 
 export default Problema;
