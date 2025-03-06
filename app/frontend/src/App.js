@@ -1,15 +1,17 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import Registro from "./pages/Registro";
+
 function App() {
-
-
   return (
-    <div>
-      <h1>Login</h1>
-      <input type= "text" placeholder= "Nombre de usuario"/>
-      <input type= "text" placeholder= "Email"/>
-      <input type= "password" placeholder= "Contraseña"/>
-      <button> Iniciar sesion </button>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/registro" element={<Registro />} />
+      </Routes>
+    </Router>
   );
 }
 
 export default App;
+

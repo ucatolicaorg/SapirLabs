@@ -10,7 +10,8 @@ import genIARoutes from "./routes/genIARoutes.js";
 import maratonRoutes from "./routes/maratonRoutes.js";
 import profRoutes from "./routes/profRoutes.js";
 
-dotenv.config(); // Cargar variables de entorno
+
+dotenv.config(); 
 
 const app = express();
 
