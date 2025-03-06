@@ -2,7 +2,7 @@ import Usuario from "../models/usuario.js";
 import generarJWT from "../middleware/generarJWT.js"; // Para generar el token
 import bcrypt from "bcrypt";
 
-//  Obtener todos los usuarios (protegido con authMiddleware)
+//  Obtener todos los usuarios 
 export const obtenerUsuarios = async (req, res) => {
   try {
     const usuarios = await Usuario.find().select("-password"); // No enviamos la password
@@ -12,7 +12,7 @@ export const obtenerUsuarios = async (req, res) => {
   }
 };
 
-// ✅ Obtener un usuario por ID (protegido con authMiddleware)
+//  Obtener un usuario por ID 
 export const obtenerUsuario = async (req, res) => {
   try {
     const usuario = await Usuario.findById(req.params.id).select("-password");
@@ -24,7 +24,7 @@ export const obtenerUsuario = async (req, res) => {
   }
 };
 
-// ✅ Crear un usuario manualmente (protegido con authMiddleware)
+// Crear un usuario manualmente 
 export const crearUsuario = async (req, res) => {
   try {
     const { nombre, email, password, nivel, rol } = req.body;
@@ -44,7 +44,7 @@ export const crearUsuario = async (req, res) => {
   }
 };
 
-// ✅ Actualizar un usuario (protegido con authMiddleware)
+// Actualizar un usuario 
 export const actualizarUsuario = async (req, res) => {
   try {
     const { nombre, email, nivel, rol } = req.body;
@@ -63,7 +63,7 @@ export const actualizarUsuario = async (req, res) => {
   }
 };
 
-// ✅ Eliminar un usuario (protegido con authMiddleware)
+//  Eliminar un usuario 
 export const eliminarUsuario = async (req, res) => {
   try {
     const usuarioEliminado = await Usuario.findByIdAndDelete(req.params.id);
@@ -75,16 +75,16 @@ export const eliminarUsuario = async (req, res) => {
   }
 };
 
-// ✅ Registrar Usuario (Público, sin authMiddleware)
+// Registrar Usuario 
 export const registrarUsuario = async (req, res) => {
   try {
-    const { nombre, email, password, nivel, rol } = req.body;
+    const { nombre, email, password, nivel, rol } = req.body;//123456
 
     const usuarioExistente = await Usuario.findOne({ email });
     if (usuarioExistente) return res.status(400).json({ mensaje: "El email ya está registrado" });
 
-    const salt = await bcrypt.genSalt(10);
-    const contraseñaHasheada = await bcrypt.hash(password, salt);
+    const salt = await bcrypt.genSalt(10); // 12345874587trretjregjgrt3298r234u435u4r3ettrejutreu345tjuretuertu
+    const contraseñaHasheada = await bcrypt.hash(password, salt); // 2$B372473425/fjfsjhsue/wdaeaef/
 
     const nuevoUsuario = new Usuario({ nombre, email, password: contraseñaHasheada, nivel, rol });
     await nuevoUsuario.save();
@@ -97,7 +97,7 @@ export const registrarUsuario = async (req, res) => {
   }
 };
 
-// ✅ Login de Usuario (Público, sin authMiddleware)
+// Login de Usuario 
 export const loginUsuario = async (req, res) => {
   try {
     const { email, password } = req.body;
