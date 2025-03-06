@@ -8,6 +8,7 @@ import morgan from "morgan";
 import usuarioRoutes from "./routes/usuarioRoutes.js";
 import genIARoutes from "./routes/genIARoutes.js";
 import maratonRoutes from "./routes/maratonRoutes.js";
+import profRoutes from "./routes/profRoutes.js";
 
 dotenv.config(); // Cargar variables de entorno
 
@@ -30,11 +31,17 @@ mongoose.connect(process.env.MONGO_URI, {
 app.use("/api/usuarios", usuarioRoutes);
 app.use("/api/genIA", genIARoutes);
 app.use("/api/maratones", maratonRoutes);
+app.use("/api/prof", profRoutes);
 
 // Ruta de prueba
 app.get("/", (req, res) => {
   res.send("API funcionando correctamente");
 });
+
+app.get("/api/usuarios", (req, res) => {
+  res.send("Esperando usuarios");
+});
+
 
 // Iniciar servidor
 const PORT = process.env.PORT || 5000;

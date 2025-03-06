@@ -24,11 +24,11 @@ export const obtenerUsuario = async (req, res) => {
 // Crear un nuevo usuario
 export const crearUsuario = async (req, res) => {
   try {
-    const { nombre, email, contraseña, nivel, rol } = req.body;
+    const { nombre, password, email, nivel, rol } = req.body;
     const usuarioExistente = await Usuario.findOne({ email });
     if (usuarioExistente) return res.status(400).json({ mensaje: "El email ya está registrado" });
 
-    const nuevoUsuario = new Usuario({ nombre, email, contraseña, nivel, rol });
+    const nuevoUsuario = new Usuario({ nombre, password, email, nivel, rol });
     await nuevoUsuario.save();
 
     res.status(201).json({ mensaje: "Usuario creado exitosamente", usuario: nuevoUsuario });
