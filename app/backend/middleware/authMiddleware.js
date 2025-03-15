@@ -3,28 +3,19 @@ import Usuario from "../models/usuario.js";
 
 const authMiddleware = async (req, res, next) => {
   try {
-    // Obtener el token desde el encabezado Authorization
     const token = req.header("Authorization")?.split(" ")[1];
+    if (!token) return res.status(401).json({ mensaje: "No token, acceso denegado" });
 
-    if (!token) {
-      return res.status(401).json({ mensaje: "Acceso no autorizado, no hay token" });
-    }
+    const { id } = jwt.verify(token, process.env.JWT_SECRET);
+    const usuario = await Usuario.findById(id).select("-password"); 
 
-    // Verificar el token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    
-    // Buscar el usuario en la base de datos
-    const usuario = await Usuario.findById(decoded.id).select("-contraseña");
-    if (!usuario) {
-      return res.status(401).json({ mensaje: "Usuario no encontrado" });
-    }
+    if (!usuario) return res.status(401).json({ mensaje: "Token inválido" });
 
-    // Adjuntar el usuario a la request
-    req.usuario = usuario;
-    next(); // Pasar al siguiente middleware o controlador
-  } catch (error) {
-    res.status(401).json({ mensaje: "Token inválido o expirado", error });
-  }
+    req.usuario = usuario; 
+    next();
+} catch (error) {
+    return res.status(401).json({ mensaje: "Token inválido" });
+}
 };
 
 export default authMiddleware;

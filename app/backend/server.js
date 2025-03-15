@@ -15,10 +15,15 @@ dotenv.config();
 
 const app = express();
 
+
 // Middlewares
-app.use(express.json()); // Permite recibir JSON en las peticiones
-app.use(cors()); // Habilita CORS
-app.use(morgan("dev")); // Muestra logs de las peticiones en consola
+app.use(express.json()); 
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true
+}));
+
+app.use(morgan("dev")); 
 
 // Conectar a MongoDB
 mongoose.connect(process.env.MONGO_URI, {
