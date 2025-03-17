@@ -25,16 +25,18 @@ export function Login() {
 
   return (
     <>
+
+    <div className='flex flex-col min-h-screen w-full max-w-md mx-auto items-center justify-center p-10'>
       <h1 className='font-bold text-6xl my-10'>Login</h1>
 
-      <form className='flex flex-col space-y-2' onSubmit={handleSubmit}>
-        <input
+        <form className='flex flex-col space-y-2' onSubmit={handleSubmit}>
+          <input
           type='email'
           name='email'
           placeholder="Email"
           value={formData.email}
           onChange={handleChange}
-          className='px-2 py-1 border-2 border-gray-800 rounded hover:border-blue-500 caret-blue-500'
+          className='px-2 py-1 border-2 border-white-800 rounded hover:border-blue-500 caret-blue-500'
           required
         />
         <input
@@ -43,7 +45,7 @@ export function Login() {
           placeholder="Password"
           value={formData.password}
           onChange={handleChange}
-          className='px-2 py-1 border-2 border-gray-800 rounded hover:border-blue-500 caret-blue-500'
+          className='px-2 py-1 border-2 border-white-800 rounded hover:border-blue-500 caret-blue-500'
           required
         />
 
@@ -51,10 +53,12 @@ export function Login() {
           className="my-3 py-1 w-30 border-3 border-blue-500 rounded hover:border-blue-800"
           type='submit'
         >
-          Iniciar sesión
+          Login
         </button>
-        <a href="/Registro">No tienes cuenta? Regístrate</a>
+        <a className='hover:text-blue-500' href="/Registro">Are you not registered yet? Register</a>
       </form>
+    </div>
+      
     </>
   );
 }
