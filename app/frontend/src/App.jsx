@@ -1,11 +1,13 @@
 
 import { useNavigate } from "react-router-dom";
+import { NavBar } from "./components/NavBar";
 
 export function App() {
   const navigate = useNavigate();
 
   return (
     <>
+    <NavBar></NavBar>
     <div className="flex flex-col items-center justify-center p-4">
       <h1 className="my-6 font-bold text-4xl sm:text-5xl text-gray-200">
         SapirLabs
@@ -17,14 +19,14 @@ export function App() {
         className="my-2 bg-blue-500 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg w-full sm:w-64"
         onClick={() => navigate("/Login")}
       >
-        Sign In
+        Login
       </button>
 
       <button
         className="my-2 bg-green-500 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg w-full sm:w-64"
-        onClick={() => navigate("/Registro")}
+        onClick={() => navigate("/Register")}
       >
-        Sign Up
+        Register
       </button>
     </div>
     </>

@@ -1,6 +1,7 @@
 import { use, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { NavBar } from '../components/NavBar';
 
 export function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -25,6 +26,8 @@ export function Login() {
 
   return (
     <>
+    
+    <NavBar></NavBar>
 
     <div className='flex flex-col min-h-screen w-full max-w-md mx-auto items-center justify-center p-10'>
       <h1 className='font-bold text-6xl my-10'>Login</h1>

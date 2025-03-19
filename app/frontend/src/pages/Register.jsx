@@ -1,7 +1,14 @@
+import { useEffect } from "react";
+import { useState } from "react";
+import axios from "axios";
+import { NavBar } from "../components/NavBar";
 
-export function Registro () {
+export function Register () {
+
+    
     return (
         <>
+        <NavBar></NavBar>
         <div className="flex flex-col min-h-screen w-full max-w-md mx-auto items-center justify-center space-y-3 p-10">
             <h1 className='font-bold text-6xl my-10'>Register</h1>
 
