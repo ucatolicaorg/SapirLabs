@@ -1,9 +1,18 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { DashboardNavBar } from "../components/dashBoardNav";
 
 export function Dashboard() {
     const [usuario, setUsuario] = useState(null);
     const [error, setError] = useState("");
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        navigate("/login");
+        alert("User have logout")
+    }
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -36,10 +45,15 @@ export function Dashboard() {
     if (!usuario) return <p>Cargando información...</p>;
 
     return (
-        <div>
-            <h1 className="text-4xl font-bold">Bienvenido, {usuario.nombre}!</h1>
-            <p>Email: {usuario.email}</p>
-            <p>Rol: {usuario.rol}</p>
-        </div>
+        <>
+            <DashboardNavBar></DashboardNavBar>
+            <div className="flex flex-col items-center justify-center gap-10 m-50">
+                <h1 className="text-4xl font-bold">Bienvenido, {usuario.name}!</h1>
+                <p>Email: {usuario.email}</p>
+                <p>Rol: {usuario.rol}</p>
+                <button className="w-30 h-10 rounded bg-blue-500 hover:bg-blue-700" onClick={handleLogout}>Logout</button>
+            </div>
+        </>
+        
     );
 }

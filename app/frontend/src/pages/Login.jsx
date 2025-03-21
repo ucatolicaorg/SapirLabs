@@ -1,7 +1,8 @@
-import { use, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { NavBar } from '../components/NavBar';
+
 
 export function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -32,7 +33,7 @@ export function Login() {
     <div className='flex flex-col min-h-screen w-full max-w-md mx-auto items-center justify-center p-10'>
       <h1 className='font-bold text-6xl my-10'>Login</h1>
 
-        <form className='flex flex-col space-y-2' onSubmit={handleSubmit}>
+        <form className='flex flex-col items-center justify-center space-y-2' onSubmit={handleSubmit}>
           <input
           type='email'
           name='email'
@@ -58,7 +59,7 @@ export function Login() {
         >
           Login
         </button>
-        <a className='hover:text-blue-500' href="/Registro">Are you not registered yet? Register</a>
+        <Link className='hover:text-blue-500' to="/register">Don't have an account? Register</Link>
       </form>
     </div>
       

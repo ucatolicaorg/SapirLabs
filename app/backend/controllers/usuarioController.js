@@ -27,7 +27,7 @@ export const obtenerUsuario = async (req, res) => {
 // Crear un usuario manualmente 
 export const crearUsuario = async (req, res) => {
   try {
-    const { nombre, email, password, nivel, rol } = req.body;
+    const { name, email, password, nivel, rol } = req.body;
 
     const usuarioExistente = await Usuario.findOne({ email });
     if (usuarioExistente) return res.status(400).json({ mensaje: "El email ya está registrado" });
@@ -35,7 +35,7 @@ export const crearUsuario = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const contraseñaHasheada = await bcrypt.hash(password, salt);
 
-    const nuevoUsuario = new Usuario({ nombre, email, password: contraseñaHasheada, nivel, rol });
+    const nuevoUsuario = new Usuario({ name, email, password: contraseñaHasheada, nivel, rol });
     await nuevoUsuario.save();
 
     res.status(201).json({ mensaje: "Usuario creado exitosamente", usuario: nuevoUsuario });
@@ -47,11 +47,11 @@ export const crearUsuario = async (req, res) => {
 // Actualizar un usuario 
 export const actualizarUsuario = async (req, res) => {
   try {
-    const { nombre, email, nivel, rol } = req.body;
+    const { name, email, nivel, rol } = req.body;
 
     const usuarioActualizado = await Usuario.findByIdAndUpdate(
       req.params.id,
-      { nombre, email, nivel, rol },
+      { name, email, nivel, rol },
       { new: true }
     );
 
@@ -78,7 +78,7 @@ export const eliminarUsuario = async (req, res) => {
 // Registrar Usuario 
 export const registrarUsuario = async (req, res) => {
   try {
-    const { nombre, email, password, nivel, rol } = req.body;//123456
+    const { name, email, password, nivel, rol } = req.body;//123456
 
     const usuarioExistente = await Usuario.findOne({ email });
     if (usuarioExistente) return res.status(400).json({ mensaje: "El email ya está registrado" });
@@ -86,7 +86,7 @@ export const registrarUsuario = async (req, res) => {
     const salt = await bcrypt.genSalt(10); // 12345874587trretjregjgrt3298r234u435u4r3ettrejutreu345tjuretuertu
     const contraseñaHasheada = await bcrypt.hash(password, salt); // 2$B372473425/fjfsjhsue/wdaeaef/
 
-    const nuevoUsuario = new Usuario({ nombre, email, password: contraseñaHasheada, nivel, rol });
+    const nuevoUsuario = new Usuario({ name, email, password: contraseñaHasheada, nivel, rol });
     await nuevoUsuario.save();
 
     const token = generarJWT(nuevoUsuario._id);
