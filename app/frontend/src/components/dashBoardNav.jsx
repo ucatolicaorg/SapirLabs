@@ -18,13 +18,13 @@ export function DashboardNavBar () {
                   
                 <div className="flex items">
                     <Link to={"/dashboard"}>
-                    Subjects
+                    Materias
                    </Link>
                 </div>
 
                 <div>
                  <button className="w-30 h-10 rounded bg-blue-500 hover:bg-blue-700" onClick={handleLogout}>
-                    Logout</button>
+                    Cerrar sesión</button>
                 </div>
 
             </div>
