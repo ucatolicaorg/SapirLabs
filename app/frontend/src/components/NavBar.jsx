@@ -12,19 +12,19 @@ export function NavBar() {
           <li>
             <Link to="/login" className="flex items-center gap-2 hover:text-sky-400">
               <img src={LogIcon} className="w-6 h-6" alt="Login Icon" />
-              Login
+              Inicia sesión
             </Link>
           </li>
           <li>
             <Link to="/register" className="flex items-center gap-2 hover:text-sky-400">
               <img src={RegIcon} className="w-6 h-6" alt="Register Icon" />
-              Register
+              Registrate
             </Link>
           </li>
           <li>
             <Link to="/" className="flex items-center gap-2 hover:text-sky-400">
               <img src={HomeIcon} className="w-6 h-6" alt="Home Icon" />
-              Home
+              Hogar
             </Link>
           </li>
         </ul>
