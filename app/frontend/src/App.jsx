@@ -17,16 +17,16 @@ export function App() {
 
       <button
         className="my-2 bg-blue-500 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg w-full sm:w-64"
-        onClick={() => navigate("/Inicia sesión")}
+        onClick={() => navigate("/Login")}
       >
-        Login
+        Inicia sesión
       </button>
 
       <button
         className="my-2 bg-green-500 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded-lg w-full sm:w-64"
-        onClick={() => navigate("/Registrate")}
+        onClick={() => navigate("/Register")}
       >
-        Register
+        Registrate
       </button>
     </div>
     </>
