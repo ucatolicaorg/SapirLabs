@@ -44,7 +44,7 @@ export function Dashboard() {
         <>
             <DashboardNavBar></DashboardNavBar>
             <div className="flex flex-col items-center justify-start gap-10 ml-64">
-                <h1 className="text-4xl font-bold">Bienvenido, {usuario.nombre}!</h1>
+                <h1 className="text-4xl font-bold">Bienvenid@, {usuario.nombre}!</h1>
             </div>
 
             <div className="flex items-center justify-center gap-20 my-20 ml-64">
@@ -55,7 +55,7 @@ export function Dashboard() {
       src="https://cdn-icons-png.flaticon.com/512/4720/4720458.png"
       alt="math icon"
     />
-    <span className="transition-transform duration-300 group-hover:scale-110 group-hover:text-blue-400">Maths</span>
+    <span className="transition-transform duration-300 group-hover:scale-110 group-hover:text-blue-400">Ciencias Básicas</span>
   </Link>
 
 
@@ -75,7 +75,7 @@ export function Dashboard() {
       src="https://cdn3.iconfinder.com/data/icons/luchesa-vol-9/128/Html-512.png"
       alt="coding icon"
     />
-    <span className="transition-transform duration-300 group-hover:scale-110 group-hover:text-blue-400">Coding</span>
+    <span className="transition-transform duration-300 group-hover:scale-110 group-hover:text-blue-400">Codificación</span>
   </Link>
 </div>
 
