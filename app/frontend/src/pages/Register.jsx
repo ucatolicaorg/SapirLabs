@@ -1,20 +1,23 @@
 import { useState } from "react";
 import axios from "axios";
 import { NavBar } from "../components/NavBar";
+import { useNavigate } from "react-router-dom";
 
 export function Register () {
+
+    const navigate = useNavigate()
     const [formData, setFormData] = useState({
-        name:"",
-        email:"",
-        password:"",
-        confirm:"",
+        nombre:"",
+        correo:"",
+        contraseña:"",
+        confirmar:"",
     });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if(formData.password !== formData.confirm) {
-            alert("The passwords are not the same");
+        if(formData.contraseña !== formData.confirmar) {
+            alert("Las contraseñas no coinciden");
             return;
         }
         console.log("Data submitted: ", formData);
@@ -22,6 +25,7 @@ export function Register () {
         try{
             const response = await axios.post("http://localhost:5000/api/usuarios/registro", formData);
             alert("Registro exitoso")
+            navigate("/login")
         }catch(error){
             console.error("Error en el registro:", error.response?.data || error.message);
             alert("Hubo un error en el registro");
@@ -41,45 +45,45 @@ export function Register () {
         <NavBar></NavBar>
         
         <div className="flex flex-col min-h-screen w-full max-w-md mx-auto items-center justify-center space-y-3 p-10">
-            <h1 className='font-bold text-6xl my-10'>Register</h1>
+            <h1 className='font-bold text-6xl my-10'>Registro</h1>
 
             <form onSubmit={handleSubmit} 
             className='flex flex-col space-y-3'>
                 <input  type='text' 
-                placeholder="name or username" 
+                placeholder="nombre" 
                 className='px-2 py-1 border-2 border-white-800 rounded hover:border-blue-500 caret-blue-500'
-                name="name"
-                value={formData.name}
+                name="nombre"
+                value={formData.nombre}
                 onChange={handleChange}/>
 
                 <input  
                 type='text' 
-                placeholder="email" 
+                placeholder="correo electrónico" 
                 className='px-2 py-1 border-2 border-white-800 rounded hover:border-blue-500 caret-blue-500' 
-                name="email"
-                value={formData.email}
+                name="correo"
+                value={formData.correo}
                 onChange={handleChange}/>
 
                 <input  
                 type='password' 
-                placeholder="password" 
+                placeholder="contraseña" 
                 className='px-2 py-1 border-2 border-white-800 rounded hover:border-blue-500 caret-blue-500'
-                name="password"
-                value={formData.password}
+                name="contraseña"
+                value={formData.contraseña}
                 onChange={handleChange}/>
 
                 <input  
                 type='password' 
-                placeholder="confirm password" 
+                placeholder="confirmar contraseña" 
                 className='px-2 py-1 border-2 border-white-800 rounded hover:border-blue-500 caret-blue-500' 
-                name="confirm"
-                value={formData.confirm}
+                name="confirmar"
+                value={formData.confirmar}
                 onChange={handleChange}/>
 
                 <button 
                 className="my-3 py-1 w-30 border-3 border-blue-500 rounded hover:border-blue-800"
                 type="submit"
-                >Register</button>
+                >Registrarse</button>
             </form>
             
         </div>

@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 //  Obtener todos los usuarios 
 export const obtenerUsuarios = async (req, res) => {
   try {
-    const usuarios = await Usuario.find().select("-password"); // No enviamos la password
+    const usuarios = await Usuario.find().select("-contraseña"); // No enviamos la contraseña
     res.json(usuarios);
   } catch (error) {
     res.status(500).json({ mensaje: "Error al obtener usuarios", error });
@@ -15,7 +15,7 @@ export const obtenerUsuarios = async (req, res) => {
 //  Obtener un usuario por ID 
 export const obtenerUsuario = async (req, res) => {
   try {
-    const usuario = await Usuario.findById(req.params.id).select("-password");
+    const usuario = await Usuario.findById(req.params.id).select("-contraseña");
     if (!usuario) return res.status(404).json({ mensaje: "Usuario no encontrado" });
 
     res.json(usuario);
@@ -24,34 +24,14 @@ export const obtenerUsuario = async (req, res) => {
   }
 };
 
-// Crear un usuario manualmente 
-export const crearUsuario = async (req, res) => {
-  try {
-    const { name, email, password, nivel, rol } = req.body;
-
-    const usuarioExistente = await Usuario.findOne({ email });
-    if (usuarioExistente) return res.status(400).json({ mensaje: "El email ya está registrado" });
-
-    const salt = await bcrypt.genSalt(10);
-    const contraseñaHasheada = await bcrypt.hash(password, salt);
-
-    const nuevoUsuario = new Usuario({ name, email, password: contraseñaHasheada, nivel, rol });
-    await nuevoUsuario.save();
-
-    res.status(201).json({ mensaje: "Usuario creado exitosamente", usuario: nuevoUsuario });
-  } catch (error) {
-    res.status(500).json({ mensaje: "Error al crear el usuario", error });
-  }
-};
-
 // Actualizar un usuario 
 export const actualizarUsuario = async (req, res) => {
   try {
-    const { name, email, nivel, rol } = req.body;
+    const { nombre, correo, nivel, rol } = req.body;
 
     const usuarioActualizado = await Usuario.findByIdAndUpdate(
       req.params.id,
-      { name, email, nivel, rol },
+      { nombre, correo, nivel, rol },
       { new: true }
     );
 
@@ -78,15 +58,15 @@ export const eliminarUsuario = async (req, res) => {
 // Registrar Usuario 
 export const registrarUsuario = async (req, res) => {
   try {
-    const { name, email, password, nivel, rol } = req.body;//123456
+    const { nombre , correo, contraseña, nivel, rol } = req.body;//123456
 
-    const usuarioExistente = await Usuario.findOne({ email });
-    if (usuarioExistente) return res.status(400).json({ mensaje: "El email ya está registrado" });
+    const usuarioExistente = await Usuario.findOne({ correo });
+    if (usuarioExistente) return res.status(400).json({ mensaje: "El correo ya está registrado" });
 
     const salt = await bcrypt.genSalt(10); // 12345874587trretjregjgrt3298r234u435u4r3ettrejutreu345tjuretuertu
-    const contraseñaHasheada = await bcrypt.hash(password, salt); // 2$B372473425/fjfsjhsue/wdaeaef/
+    const contraseñaHasheada = await bcrypt.hash(contraseña, salt); // 2$B372473425/fjfsjhsue/wdaeaef/
 
-    const nuevoUsuario = new Usuario({ name, email, password: contraseñaHasheada, nivel, rol });
+    const nuevoUsuario = new Usuario({ nombre, correo, contraseña: contraseñaHasheada, nivel, rol });
     await nuevoUsuario.save();
 
     const token = generarJWT(nuevoUsuario._id);
@@ -100,12 +80,12 @@ export const registrarUsuario = async (req, res) => {
 // Login de Usuario 
 export const loginUsuario = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { correo, contraseña } = req.body;
 
-    const usuario = await Usuario.findOne({ email });
+    const usuario = await Usuario.findOne({ correo });
     if (!usuario) return res.status(400).json({ mensaje: "Usuario no encontrado" });
 
-    const contraseñaValida = await bcrypt.compare(password, usuario.password);
+    const contraseñaValida = await bcrypt.compare(contraseña, usuario.contraseña);
     if (!contraseñaValida) return res.status(400).json({ mensaje: "Contraseña incorrecta" });
 
     const token = generarJWT(usuario._id);

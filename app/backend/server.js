@@ -6,9 +6,7 @@ import morgan from "morgan";
 
 // Importar rutas
 import usuarioRoutes from "./routes/usuarioRoutes.js";
-import genIARoutes from "./routes/genIARoutes.js";
-import maratonRoutes from "./routes/maratonRoutes.js";
-import profRoutes from "./routes/profRoutes.js";
+
 
 
 dotenv.config(); 
@@ -35,9 +33,6 @@ mongoose.connect(process.env.MONGO_URI, {
 
 // Rutas
 app.use("/api/usuarios", usuarioRoutes);
-app.use("/api/genIA", genIARoutes);
-app.use("/api/maratones", maratonRoutes);
-app.use("/api/prof", profRoutes);
 
 // Ruta de prueba
 app.get("/", (req, res) => {

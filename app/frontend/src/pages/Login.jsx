@@ -5,7 +5,7 @@ import { NavBar } from '../components/NavBar';
 
 
 export function Login() {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({ correo: "", contraseña: "" });
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -19,7 +19,7 @@ export function Login() {
       const { data } = await axios.post("http://localhost:5000/api/usuarios/login", formData);
       localStorage.setItem("token", data.token);
       alert("Login exitoso");
-      navigate('/Dashboard')
+      navigate('/dashboard')
     } catch (error) {
       alert(error.response?.data?.message || "Error en el login");
     }
@@ -35,19 +35,19 @@ export function Login() {
 
         <form className='flex flex-col items-center justify-center space-y-2' onSubmit={handleSubmit}>
           <input
-          type='email'
-          name='email'
-          placeholder="Email"
-          value={formData.email}
+          type=''
+          name='correo'
+          placeholder="correo"
+          value={formData.correo}
           onChange={handleChange}
           className='px-2 py-1 border-2 border-white-800 rounded hover:border-blue-500 caret-blue-500'
           required
         />
         <input
           type='password'
-          name='password'
-          placeholder="Password"
-          value={formData.password}
+          name='contraseña'
+          placeholder="contraseña"
+          value={formData.contraseña}
           onChange={handleChange}
           className='px-2 py-1 border-2 border-white-800 rounded hover:border-blue-500 caret-blue-500'
           required

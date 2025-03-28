@@ -3,7 +3,6 @@ import authMiddleware from "../middleware/authMiddleware.js";
 import {
   obtenerUsuarios,
   obtenerUsuario,
-  crearUsuario,
   actualizarUsuario,
   eliminarUsuario,
   registrarUsuario,
