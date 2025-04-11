@@ -31,7 +31,7 @@ export function Login() {
     <NavBar></NavBar>
 
     <div className='flex flex-col min-h-screen w-full max-w-md mx-auto items-center justify-center p-10'>
-      <h1 className='font-bold text-6xl my-10'>Login</h1>
+      <h1 className='font-bold text-6xl my-10'>Iniciar sesión</h1>
 
         <form className='flex flex-col items-center justify-center space-y-2' onSubmit={handleSubmit}>
           <input
@@ -57,9 +57,9 @@ export function Login() {
           className="my-3 py-1 w-30 border-3 border-blue-500 rounded hover:border-blue-800"
           type='submit'
         >
-          Login
+          Iniciar sesión
         </button>
-        <Link className='hover:text-blue-500' to="/register">Don't have an account? Register</Link>
+        <Link className='hover:text-blue-500' to="/register">No tienes cuenta? Registrate</Link>
       </form>
     </div>
       
