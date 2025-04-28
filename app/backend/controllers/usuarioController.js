@@ -91,6 +91,7 @@ export const loginUsuario = async (req, res) => {
     const token = generarJWT(usuario._id);
 
     res.json({ mensaje: "Login exitoso", usuario, token });
+    
   } catch (error) {
     res.status(500).json({ mensaje: "Error en el login", error: error.message });
   }

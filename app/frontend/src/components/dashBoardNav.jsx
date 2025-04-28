@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export function DashboardNavBar () {
-
+    const navigate = useNavigate();
     const handleLogout = () => {
             localStorage.removeItem("token");
             navigate("/login");
-            alert("User have logout")
         }
     
     return(

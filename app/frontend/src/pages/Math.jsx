@@ -5,9 +5,8 @@ export function Math () {
         <>
             <DashboardNavBar></DashboardNavBar>
             
-            <div>
-                <h1>Math Exercises</h1>
-
+            <div className="mx-65">
+                <h1>Ejercicios de matematicas</h1>
             </div>
         </>
     );
