@@ -50,7 +50,7 @@ export function Register () {
             <form onSubmit={handleSubmit} 
             className='flex flex-col space-y-3'>
                 <input  type='text' 
-                placeholder="nombre" 
+                placeholder="Nombre" 
                 className='px-2 py-1 border-2 border-white-800 rounded hover:border-blue-500 caret-blue-500'
                 name="nombre"
                 value={formData.nombre}
@@ -58,7 +58,7 @@ export function Register () {
 
                 <input  
                 type='text' 
-                placeholder="correo electrónico" 
+                placeholder="Correo electrónico" 
                 className='px-2 py-1 border-2 border-white-800 rounded hover:border-blue-500 caret-blue-500' 
                 name="correo"
                 value={formData.correo}
@@ -66,7 +66,7 @@ export function Register () {
 
                 <input  
                 type='password' 
-                placeholder="contraseña" 
+                placeholder="Contraseña" 
                 className='px-2 py-1 border-2 border-white-800 rounded hover:border-blue-500 caret-blue-500'
                 name="contraseña"
                 value={formData.contraseña}
@@ -74,7 +74,7 @@ export function Register () {
 
                 <input  
                 type='password' 
-                placeholder="confirmar contraseña" 
+                placeholder="Confirmar contraseña" 
                 className='px-2 py-1 border-2 border-white-800 rounded hover:border-blue-500 caret-blue-500' 
                 name="confirmar"
                 value={formData.confirmar}
