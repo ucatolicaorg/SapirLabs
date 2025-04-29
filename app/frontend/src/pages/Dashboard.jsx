@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { DashboardNavBar } from "../components/dashBoardNav";
 import { Link } from "react-router-dom";
@@ -7,7 +6,7 @@ import { Link } from "react-router-dom";
 export function Dashboard() {
     const [usuario, setUsuario] = useState(null);
     const [error, setError] = useState("");
-    const navigate = useNavigate()
+
 
     
     useEffect(() => {

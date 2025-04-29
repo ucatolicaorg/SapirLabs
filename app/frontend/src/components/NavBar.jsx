@@ -29,16 +29,7 @@ export function NavBar() {
               Registrate
             </Link>
           </li>
-<<<<<<< HEAD
          
-=======
-          <li>
-            <Link to="/" className="flex items-center gap-2 hover:text-sky-400">
-              <img src={HomeIcon} className="w-6 h-6" alt="Home Icon" />
-              Inicio
-            </Link>
-          </li>
->>>>>>> f7c6e5bc05f1bd6387e22818b31e57452030ca43
         </ul>
       </nav>
     </div>
