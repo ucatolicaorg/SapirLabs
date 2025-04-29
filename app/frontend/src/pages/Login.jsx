@@ -14,11 +14,9 @@ export function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault(); 
-
     try {
       const { data } = await axios.post("http://localhost:5000/api/usuarios/login", formData);
       localStorage.setItem("token", data.token);
-      alert("Login exitoso");
       navigate('/dashboard')
     } catch (error) {
       alert(error.response?.data?.message || "Error en el login");
@@ -33,9 +31,10 @@ export function Login() {
     <div className='flex flex-col min-h-screen w-full max-w-md mx-auto items-center justify-center p-10'>
       <h1 className='font-bold text-6xl my-10'>Iniciar sesión</h1>
 
-        <form className='flex flex-col items-center justify-center space-y-2' onSubmit={handleSubmit}>
+        <form className='flex flex-col items-center justify-center space-y-2' 
+        onSubmit={handleSubmit}>
           <input
-          type=''
+          type='text'
           name='correo'
           placeholder="correo"
           value={formData.correo}

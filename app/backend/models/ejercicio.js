@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
+
 const ejercicioSchema = new mongoose.Schema({
-    competencia: { type:String, required: true},
+    competencia: { type: String, enum:["cb", "eng", "cod"], required: true},
+    nivel: { type: Number, enum: [1, 2, 3], reuqired: true},
     enunciado: { type:String, required: true},
-    _respuesta: { type },
-    get respuesta() {
-        return this._respuesta;
-    },
-    set respuesta(value) {
-        this._respuesta = value;
-    },
-})
+    respuesta: { type: String, required: true }
+});
+
+const Ejercicio = mongoose.model("Ejercicio", ejercicioSchema);
+
+export default Ejercicio;

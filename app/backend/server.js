@@ -6,7 +6,7 @@ import morgan from "morgan";
 
 // Importar rutas
 import usuarioRoutes from "./routes/usuarioRoutes.js";
-
+import ejercicioRoutes from "./routes/ejercicioRoutes.js";
 
 
 dotenv.config(); 
@@ -34,15 +34,13 @@ mongoose.connect(process.env.MONGO_URI, {
 
 // Rutas
 app.use("/api/usuarios", usuarioRoutes);
+app.use("/api/ejercicios", ejercicioRoutes);
 
 // Ruta de prueba
 app.get("/", (req, res) => {
   res.send("API funcionando correctamente");
 });
 
-app.get("/api/usuarios", (req, res) => {
-  res.send("Esperando usuarios");
-});
 
 
 // Iniciar servidor
