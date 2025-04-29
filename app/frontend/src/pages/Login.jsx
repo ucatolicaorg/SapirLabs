@@ -36,7 +36,7 @@ export function Login() {
         <form className='flex flex-col items-center justify-center space-y-2' onSubmit={handleSubmit}>
           <input
           type=''
-          name='correo'
+          name='Correo electrónico'
           placeholder="correo"
           value={formData.correo}
           onChange={handleChange}
@@ -45,7 +45,7 @@ export function Login() {
         />
         <input
           type='password'
-          name='contraseña'
+          name='Contraseña'
           placeholder="contraseña"
           value={formData.contraseña}
           onChange={handleChange}
