@@ -24,7 +24,7 @@ export function NavBar() {
           <li>
             <Link to="/" className="flex items-center gap-2 hover:text-sky-400">
               <img src={HomeIcon} className="w-6 h-6" alt="Home Icon" />
-              Hogar
+              Inicio
             </Link>
           </li>
         </ul>
