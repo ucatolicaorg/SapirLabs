@@ -36,8 +36,8 @@ export function Login() {
         <form className='flex flex-col items-center justify-center space-y-2' onSubmit={handleSubmit}>
           <input
           type=''
-          name='Correo electrónico'
-          placeholder="correo"
+          name='correo'
+          placeholder="Correo electrónico"
           value={formData.correo}
           onChange={handleChange}
           className='px-2 py-1 border-2 border-white-800 rounded hover:border-blue-500 caret-blue-500'
@@ -45,8 +45,8 @@ export function Login() {
         />
         <input
           type='password'
-          name='Contraseña'
-          placeholder="contraseña"
+          name='contraseña'
+          placeholder="Contraseña"
           value={formData.contraseña}
           onChange={handleChange}
           className='px-2 py-1 border-2 border-white-800 rounded hover:border-blue-500 caret-blue-500'
