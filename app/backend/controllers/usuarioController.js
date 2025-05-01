@@ -25,23 +25,25 @@ export const obtenerUsuario = async (req, res) => {
 };
 
 // Actualizar un usuario 
-export const actualizarUsuario = async (req, res) => {
+export const actualizarUsuario = async(req, res) => {
+  const { id } = req.params;
+  const { rol } = req.body;
+
   try {
-    const { nombre, correo, nivel, rol } = req.body;
+      const usuario = await Usuario.findById(id);
+      if (!usuario) {
+          return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+      }
 
-    const usuarioActualizado = await Usuario.findByIdAndUpdate(
-      req.params.id,
-      { nombre, correo, nivel, rol },
-      { new: true }
-    );
+      usuario.rol = rol || usuario.rol;
+      await usuario.save();
 
-    if (!usuarioActualizado) return res.status(404).json({ mensaje: "Usuario no encontrado" });
-
-    res.json({ mensaje: "Usuario actualizado", usuario: usuarioActualizado });
+      res.json({ mensaje: 'Usuario actualizado', usuario });
   } catch (error) {
-    res.status(500).json({ mensaje: "Error al actualizar el usuario", error });
+      res.status(500).json({ mensaje: 'Error al actualizar usuario', error });
   }
-};
+}
+
 
 //  Eliminar un usuario 
 export const eliminarUsuario = async (req, res) => {
