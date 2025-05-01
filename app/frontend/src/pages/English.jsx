@@ -67,7 +67,7 @@ export function English() {
     <>
       <DashboardNavBar />
       <h1 className="mx-65 text-2xl font-bold">
-        Lista de ejercicios ciencias básicas (nivel {nivelUsuario}):
+        Exercise list (level {nivelUsuario}):
       </h1>
 
       <ul className="mx-65 mt-6">
