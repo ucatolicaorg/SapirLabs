@@ -26,7 +26,7 @@ export function ProfDashBoard() {
                     initialRoles[usuario._id] = usuario.rol;
                 });
                 setRolInputs(initialRoles);
-            } catch (error) {
+            } catch (error) { 
                 console.error(error);
             }
         };
