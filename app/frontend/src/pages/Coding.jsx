@@ -67,7 +67,7 @@ export function Coding() {
     <>
       <DashboardNavBar />
       <h1 className="mx-65 text-2xl font-bold">
-        Lista de ejercicios ciencias básicas (nivel {nivelUsuario}):
+        Lista de ejercicios de Codificación (nivel {nivelUsuario}):
       </h1>
 
       <ul className="mx-65 mt-6">
