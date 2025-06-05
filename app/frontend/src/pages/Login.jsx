@@ -26,7 +26,7 @@ export function Login() {
        
       });
       
-  
+      console.log("Data del usuario: ", userResponse.data)
       switch(userResponse.data.rol) {
         case 'admin':
           navigate('/admindash');

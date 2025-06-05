@@ -1,5 +1,5 @@
 import { ProfNavBar } from "../components/profNavBar";
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import axios from "axios";
 
 export function ProfDashBoard() {
@@ -9,6 +9,29 @@ export function ProfDashBoard() {
     enunciado: "",
     respuesta: "",
   });
+
+  const [estudiantes, setEstudiantes] = useState([]);
+
+      useEffect(() => {
+        const getEstudiantes = async () => {
+            try {
+                const token = localStorage.getItem("token");
+                const { data } = await axios.get("http://localhost:5000/api/usuarios/rol/estudiante/", {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                setEstudiantes(data);
+
+                const initialRoles = {};
+                data.forEach((usuario) => {
+                    initialRoles[usuario._id] = usuario.rol;
+                });
+                setRolInputs(initialRoles);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        getEstudiantes();
+    }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,11 +61,13 @@ export function ProfDashBoard() {
       <ProfNavBar />
       <div className="flex flex-col items-center justify-center">
         <h1 className="font-bold text-6xl">
-          Creacion de ejercicios
+          Creación de ejercicios
         </h1>
       </div>
 
       <div className="flex flex-col items-center justify-center gap-20 my-20 ml-64">
+    
+
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <label>Competencia:</label>
           <select
@@ -98,6 +123,7 @@ export function ProfDashBoard() {
           </button>
         </form>
       </div>
+   
     </>
   );
 }

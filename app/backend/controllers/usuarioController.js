@@ -12,6 +12,18 @@ export const obtenerUsuarios = async (req, res) => {
   }
 };
 
+//obtener usuario por rol
+export const obtenerUsuarioRol = async (req, res) => {
+  try {
+    const { rol } = req.params;
+
+    const usuarios = await Usuario.find({rol});
+    res.json(usuarios);
+  }catch (error) {
+    res.status(500).json({ mensaje: "Error al obtener usuarios por rol", error });
+  }
+};
+
 //  Obtener un usuario por ID 
 export const obtenerUsuario = async (req, res) => {
   try {

@@ -6,7 +6,8 @@ import {
   actualizarUsuario,
   eliminarUsuario,
   registrarUsuario,
-  loginUsuario
+  loginUsuario,
+  obtenerUsuarioRol
 } from "../controllers/usuarioController.js"; 
 
 import Usuario from "../models/usuario.js";
@@ -23,6 +24,8 @@ router.get("/me", authMiddleware, async (req, res) => {
     res.status(500).json({ mensaje: "Error en el servidor", error: error.message });
   }
 });
+router.get("/rol/:rol", obtenerUsuarioRol);
+
 
 router.get("/:id", obtenerUsuario);
 router.post("/registro", registrarUsuario);

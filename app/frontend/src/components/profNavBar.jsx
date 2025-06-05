@@ -20,6 +20,10 @@ export function ProfNavBar () {
                 <Link to={"/profdash"}>
                     Crear ejercicios
                    </Link>
+
+                <Link to={"/listaEstudiantes"}>
+                Lista de estudiantes
+                </Link>
                    
                 </div>
 
