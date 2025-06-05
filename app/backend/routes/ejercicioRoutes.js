@@ -4,11 +4,12 @@ import {
     getEjercicio, 
     validarRespuesta
 } from "../controllers/ejercicioController.js";
+import authMiddleware from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/crear", crearEjercicio);
-router.post("/validar", validarRespuesta);
-router.get("/:competencia", getEjercicio);
+router.post("/crear", authMiddleware,crearEjercicio);
+router.post("/validar",authMiddleware, validarRespuesta);
+router.get("/:competencia",authMiddleware, getEjercicio);
 
 export default router;

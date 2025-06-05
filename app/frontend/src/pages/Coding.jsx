@@ -57,7 +57,28 @@ export function Coding() {
         }
       );
 
-      setResultados({ ...resultados, [id]: data.correcta });
+      const esCorrecta = data.correcta;
+
+      setResultados({ ...resultados, [id]: esCorrecta });
+
+      if (esCorrecta) {
+        setEjercicios((prevEjercicios) =>
+          prevEjercicios.filter((ej) => ej._id !== id)
+        );
+
+        await axios.put(
+          "http://localhost:5000/api/usuarios/progreso",
+          { puntos: 10 }, 
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        setUsuario((prevUsuario) => ({
+          ...prevUsuario,
+          progreso: prevUsuario.progreso + 10,
+        }));
+      }
     } catch (error) {
       console.error("Error al validar respuesta: ", error);
     }

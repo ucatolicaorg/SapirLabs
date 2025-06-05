@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 
 const ejercicioSchema = new mongoose.Schema({
     competencia: { type: String, enum:["cb", "eng", "cod"], required: true},
-    nivel: { type: Number, enum: [1, 2, 3], reuqired: true},
-    enunciado: { type:String, required: true},
+    nivel: { type: Number, required: true},
+    enunciado: { type: String, required: true},
     respuesta: { type: String, required: true }
 });
 

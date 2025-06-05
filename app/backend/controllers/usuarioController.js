@@ -36,8 +36,8 @@ export const obtenerUsuario = async (req, res) => {
   }
 };
 
-// Actualizar un usuario 
-export const actualizarUsuario = async(req, res) => {
+// Actualizar rol de usuario 
+export const actualizarRol = async(req, res) => {
   const { id } = req.params;
   const { rol } = req.body;
 
@@ -108,5 +108,33 @@ export const loginUsuario = async (req, res) => {
     
   } catch (error) {
     res.status(500).json({ mensaje: "Error en el login", error: error.message });
+  }
+};
+
+// Actualizar nivel de usuario
+
+export const actualizarProgreso = async (req, res) => {
+  const usuarioId = req.usuario._id;  // lo sacas del token (req.usuario)
+  const { puntos } = req.body;
+
+  try {
+    const usuario = await Usuario.findById(usuarioId);
+    usuario.progreso += puntos;
+
+    if (!usuario.ejerciciosResueltos.includes(idEjercicio)) {
+      usuario.ejerciciosResueltos.push(idEjercicio);
+    }
+    
+    await usuario.save();
+
+    res.json({
+      mensaje: 'Progreso actualizado exitosamente',
+      progreso: usuario.progreso
+    });
+  } catch (error) {
+    res.status(500).json({
+      mensaje: 'Error al actualizar progreso',
+      error: error.message
+    });
   }
 };
