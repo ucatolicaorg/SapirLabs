@@ -25,7 +25,7 @@ export function ProfDashBoard() {
                 data.forEach((usuario) => {
                     initialRoles[usuario._id] = usuario.rol;
                 });
-                setRolInputs(initialRoles);
+      
             } catch (error) { 
                 console.error(error);
             }
@@ -44,9 +44,14 @@ export function ProfDashBoard() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+       const token = localStorage.getItem("token");
       const res = await axios.post(
         "http://localhost:5000/api/ejercicios/crear",
-        ejercicio
+        ejercicio,{
+      headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
       );
       console.log("Ejercicio creado:", res.data);
       alert("Ejercicio creado correctamente");

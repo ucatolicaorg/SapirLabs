@@ -6,7 +6,7 @@ import {
   eliminarUsuario,
   registrarUsuario,
   loginUsuario,
-  obtenerUsuarioRol
+  obtenerUsuarioRol,
   actualizarRol,
   actualizarProgreso
 } from "../controllers/usuarioController.js"; 
@@ -15,8 +15,7 @@ import Usuario from "../models/usuario.js";
 
 const router = express.Router();
 
-// Obtener todos los usuarios
-router.get("/", authMiddleware, obtenerUsuarios);
+// Rutas específicas 
 
 // Obtener el usuario actual (sin password)
 router.get("/me", authMiddleware, async (req, res) => {
@@ -28,25 +27,23 @@ router.get("/me", authMiddleware, async (req, res) => {
     res.status(500).json({ mensaje: "Error en el servidor", error: error.message });
   }
 });
+
+// Obtener usuarios por rol
 router.get("/rol/:rol", obtenerUsuarioRol);
-
-
-// Obtener usuario por ID
-router.get("/:id", obtenerUsuario);
-
-// Registrar nuevo usuario
-router.post("/registro", registrarUsuario);
 
 // Login de usuario
 router.post("/login", loginUsuario);
 
-// Subir nivel y actualizar progreso del usuario
+// Registrar nuevo usuario
+router.post("/registro", registrarUsuario);
+
+// rutas protegidas
+router.get("/", authMiddleware, obtenerUsuarios);
 router.put("/progreso", authMiddleware, actualizarProgreso);
 
-// Actualizar rol de usuario
+// Rutas dinámicas 
+router.get("/:id", obtenerUsuario);
 router.put("/:id", authMiddleware, actualizarRol);
-
-// Eliminar usuario por ID
 router.delete("/:id", authMiddleware, eliminarUsuario);
 
 export default router;

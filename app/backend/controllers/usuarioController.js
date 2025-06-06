@@ -114,22 +114,27 @@ export const loginUsuario = async (req, res) => {
 // Actualizar nivel de usuario
 
 export const actualizarProgreso = async (req, res) => {
-  const usuarioId = req.usuario._id;  // lo sacas del token (req.usuario)
-  const { puntos } = req.body;
+  const usuarioId = req.usuario._id;  // Lo sacamos del token gracias al middleware
+  const { puntos, idEjercicio } = req.body; // Extraemos ambos desde el frontend
 
   try {
     const usuario = await Usuario.findById(usuarioId);
-    usuario.progreso += puntos;
+    if (!usuario) {
+      return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+    }
 
-    if (!usuario.ejerciciosResueltos.includes(idEjercicio)) {
+    usuario.progreso += puntos || 10;
+
+    if (idEjercicio && !usuario.ejerciciosResueltos.includes(idEjercicio)) {
       usuario.ejerciciosResueltos.push(idEjercicio);
     }
-    
+
     await usuario.save();
 
     res.json({
       mensaje: 'Progreso actualizado exitosamente',
-      progreso: usuario.progreso
+      progreso: usuario.progreso,
+      ejerciciosResueltos: usuario.ejerciciosResueltos
     });
   } catch (error) {
     res.status(500).json({

@@ -10,8 +10,24 @@ export function English() {
   const [resultados, setResultados] = useState({});
   const [ejerciciosResueltos, setEjerciciosResueltos] = useState([]);
 
+  // Función para mapear nivel usuario (0-21) a nivel ejercicio (1-3)
+  const mapNivelUsuarioAEjercicio = (nivel) => {
+    if (nivel <= 7) return 1;
+    if (nivel <= 14) return 2;
+    return 3;
+  };
+
+  // Función para calcular progreso dentro del bloque actual de 7 niveles
+  const calcularProgresoBloque = (nivel) => {
+    if (nivel <= 0) return 0;
+    const bloque = Math.floor((nivel - 1) / 7);
+    const nivelInicio = bloque * 7 + 1;
+    const progresoBloque = nivel - nivelInicio + 1;
+    return progresoBloque;
+  };
+
   useEffect(() => {
-    // Función para obtener los datos del usuario
+    // Obtener usuario y establecer estado
     const getUsuario = async () => {
       try {
         const token = localStorage.getItem("token");
@@ -20,10 +36,7 @@ export function English() {
         });
 
         setUsuario(data);
-
-        // Esto lo puedes manejar aquí también, ajustando según el nivel de usuario
-        const nivel = data.nivel <= 7 ? 1 : data.nivel <= 15 ? 2 : 3;
-        setNivelUsuario(nivel);
+        setNivelUsuario(data.nivel); // nivel real (0-21)
         setEjerciciosResueltos(data.ejerciciosResueltos || []);
       } catch (error) {
         console.error("Error al obtener datos de usuario: ", error);
@@ -34,16 +47,17 @@ export function English() {
   }, []);
 
   useEffect(() => {
-    if (nivelUsuario === null) return; // Asegurarse de que el nivel está disponible antes de continuar
+    if (nivelUsuario === null) return;
+
+    const nivelEjercicio = mapNivelUsuarioAEjercicio(nivelUsuario);
 
     const getEjercicios = async () => {
       try {
         const token = localStorage.getItem("token");
         const { data } = await axios.get(
-          `http://localhost:5000/api/ejercicios/eng?nivel=${nivelUsuario}`,
+          `http://localhost:5000/api/ejercicios/eng?nivel=${nivelEjercicio}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        console.log("Ejercicios recibidos:", data);
         setEjercicios(data);
       } catch (error) {
         console.error("Error al obtener ejercicios: ", error.response || error.message);
@@ -51,7 +65,7 @@ export function English() {
     };
 
     getEjercicios();
-  }, [nivelUsuario]); // Ahora se ejecutará solo cuando 'nivelUsuario' se haya actualizado
+  }, [nivelUsuario]);
 
   const validarRespuesta = async (id) => {
     try {
@@ -63,18 +77,28 @@ export function English() {
         { idEjercicio: id, respuestaUsuario },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      console.log("Respuesta validada:", data);
+
       const esCorrecta = data.correcta;
-      setResultados({ ...resultados, [id]: esCorrecta });
+      setResultados((prev) => ({ ...prev, [id]: esCorrecta }));
 
       if (esCorrecta) {
-        setEjerciciosResueltos([...ejerciciosResueltos, id]);
+        setEjerciciosResueltos((prev) => [...prev, id]);
 
+        // Actualiza progreso en backend
         await axios.put(
           "http://localhost:5000/api/usuarios/progreso",
-          { puntos: 10 },
+          { puntos: 1 }, // suponiendo 1 punto por nivel para simplificar
           { headers: { Authorization: `Bearer ${token}` } }
         );
+
+        // Actualizar localmente el progreso del usuario
+        setUsuario((prev) => ({
+          ...prev,
+          nivel: prev.nivel + 1 <= 21 ? prev.nivel + 1 : 21, // no pasar de 21
+        }));
+
+        // Actualizamos el nivelUsuario para refrescar ejercicios y barra
+        setNivelUsuario((prevNivel) => (prevNivel + 1 <= 21 ? prevNivel + 1 : 21));
       }
     } catch (error) {
       console.error("Error al validar respuesta:", error);
@@ -86,17 +110,33 @@ export function English() {
   };
 
   if (!usuario || nivelUsuario === null) {
-    return <div>Cargando...</div>; // O alguna pantalla de carga mientras se obtiene la información
+    return <div>Cargando...</div>;
   }
+
+  // Datos para la barra de progreso
+  const progresoBloque = calcularProgresoBloque(nivelUsuario);
+  const porcentajeProgreso = (progresoBloque / 7) * 100;
 
   return (
     <>
       <DashboardNavBar />
-      <h1 className="mx-65 text-2xl font-bold">Exercise list (level {nivelUsuario}):</h1>
+
+
+      <div className="mx-65 mt-4 mb-8 w-full bg-gray-300 rounded-full h-5">
+        <div
+          className="bg-blue-600 h-5"
+          style={{ width: `${porcentajeProgreso}%`, transition: "width 0.5s ease" }}
+          title={`Progreso nivel ${nivelUsuario}: ${Math.round(porcentajeProgreso)}%`}
+        />
+      </div>
+
+      <h1 className="mx-65 text-2xl font-bold mb-4">
+        Exercise list (level {mapNivelUsuarioAEjercicio(nivelUsuario)} - Usuario nivel real: {nivelUsuario})
+      </h1>
 
       <ul className="mx-65 mt-6">
         {ejercicios
-          .filter((ej) => !ejerciciosResueltos.includes(ej._id)) // Filtrar ejercicios no resueltos
+          .filter((ej) => !ejerciciosResueltos.includes(ej._id))
           .map((ej) => (
             <li key={ej._id} className="mb-6 border-b pb-4">
               <p>
