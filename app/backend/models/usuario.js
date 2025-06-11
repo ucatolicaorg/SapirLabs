@@ -7,7 +7,8 @@ const usuarioSchema = new mongoose.Schema({
   nivel: { type: Number, default: 0 },
   progreso: {type: Number, default: 0},
   rol: { type: String, enum: ["estudiante", "profesor", "admin"], default: "estudiante" },
-  ejerciciosResueltos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Ejercicio" }]
+  ejerciciosResueltos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Ejercicio" }],
+  archivos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Archivo" }]  // ← lista de archivos
 }, { timestamps: true });
 
 const Usuario = mongoose.model("Usuario", usuarioSchema);
