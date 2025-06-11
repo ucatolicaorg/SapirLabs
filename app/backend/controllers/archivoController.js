@@ -1,5 +1,5 @@
 // controllers/archivoController.js
-import archivo from "../models/archivo.js";
+import Archivo from "../models/archivo.js";
 import Usuario from "../models/usuario.js";
 
 // Obtiene archivos de un usuario
@@ -15,7 +15,10 @@ export const obtenerArchivosUsuario = async (req, res) => {
 
 // Subir y asociar archivo a usuario
 export const subirArchivo = async (req, res) => {
-  if (!req.file) return res.status(400).json({ mensaje: "Se requiere un archivo PDF" });
+  if (!req.file) return res.status(400).json({ mensaje: "Se requiere un archivo PDF"});
+  const a = req.file;
+
+  res.status(201).json({contenido: a})
   try {
     const archivo = new Archivo({
       nombre: req.file.originalname,

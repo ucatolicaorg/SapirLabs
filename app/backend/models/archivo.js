@@ -11,4 +11,5 @@ const archivoSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-export default mongoose.model("Archivo", archivoSchema);
+const Archivo = mongoose.model("Archivo", archivoSchema);
+export default Archivo;
