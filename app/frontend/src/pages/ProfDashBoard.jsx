@@ -60,6 +60,12 @@ export function ProfDashBoard() {
   async function handleSubmit(e) {
     e.preventDefault();
 
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      alert("Error: No se encontró el ID del usuario. Inicia sesión nuevamente.");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("competencia", ejercicio.competencia);
     formData.append("nivel", ejercicio.nivel);
@@ -69,16 +75,27 @@ export function ProfDashBoard() {
 
     try {
       await axios.post(
-        "http://localhost:5000/api/archivos/subir",
+        `http://localhost:5000/api/archivos/subir/${userId}`,
         formData
       );
-      alert("Ejercicio creado" + (pdfFile ? " con PDF incluido." : " sin PDF."));
-    } catch (err) {
-      console.error(err);
-      alert("Hubo un error al crear el ejercicio.");
+      alert("Ejercicio creado" + (pdfFile ? " con PDF." : " sin PDF."));
+      setEjercicio({
+        competencia: "",
+        nivel: 0,
+        enunciado: "",
+        respuesta: "",
+      });
+      setPdfFile(null);
+    } catch (error) {
+      console.error("Axios error completo:", error);
+      if (error.response) {
+        console.error("Backend error data:", error.response.data);
+        alert("Error: " + (error.response.data.error || error.response.data.mensaje));
+      } else {
+        alert("Error genérico: " + error.message);
+      }
     }
   }
-
 
   return (
     <>

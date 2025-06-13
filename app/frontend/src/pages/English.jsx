@@ -10,14 +10,12 @@ export function English() {
   const [resultados, setResultados] = useState({});
   const [ejerciciosResueltos, setEjerciciosResueltos] = useState([]);
 
-  // Función para mapear nivel usuario (0-21) a nivel ejercicio (1-3)
   const mapNivelUsuarioAEjercicio = (nivel) => {
     if (nivel <= 7) return 1;
     if (nivel <= 14) return 2;
     return 3;
   };
 
-  // Función para calcular progreso dentro del bloque actual de 7 niveles
   const calcularProgresoBloque = (nivel) => {
     if (nivel <= 0) return 0;
     const bloque = Math.floor((nivel - 1) / 7);
@@ -27,7 +25,6 @@ export function English() {
   };
 
   useEffect(() => {
-    // Obtener usuario y establecer estado
     const getUsuario = async () => {
       try {
         const token = localStorage.getItem("token");
@@ -36,7 +33,7 @@ export function English() {
         });
 
         setUsuario(data);
-        setNivelUsuario(data.nivel); // nivel real (0-21)
+        setNivelUsuario(data.nivel);
         setEjerciciosResueltos(data.ejerciciosResueltos || []);
       } catch (error) {
         console.error("Error al obtener datos de usuario: ", error);
@@ -84,20 +81,17 @@ export function English() {
       if (esCorrecta) {
         setEjerciciosResueltos((prev) => [...prev, id]);
 
-        // Actualiza progreso en backend
         await axios.put(
           "http://localhost:5000/api/usuarios/progreso",
-          { puntos: 1 }, // suponiendo 1 punto por nivel para simplificar
+          { puntos: 1 },
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
-        // Actualizar localmente el progreso del usuario
         setUsuario((prev) => ({
           ...prev,
-          nivel: prev.nivel + 1 <= 21 ? prev.nivel + 1 : 21, // no pasar de 21
+          nivel: prev.nivel + 1 <= 21 ? prev.nivel + 1 : 21,
         }));
 
-        // Actualizamos el nivelUsuario para refrescar ejercicios y barra
         setNivelUsuario((prevNivel) => (prevNivel + 1 <= 21 ? prevNivel + 1 : 21));
       }
     } catch (error) {
@@ -110,10 +104,9 @@ export function English() {
   };
 
   if (!usuario || nivelUsuario === null) {
-    return <div>Cargando...</div>;
+    return <div className="text-center mt-10">Cargando...</div>;
   }
 
-  // Datos para la barra de progreso
   const progresoBloque = calcularProgresoBloque(nivelUsuario);
   const porcentajeProgreso = (progresoBloque / 7) * 100;
 
@@ -121,50 +114,52 @@ export function English() {
     <>
       <DashboardNavBar />
 
+      <div className="max-w-3xl mx-auto px-4">
+        <div className="mt-6 mb-8 bg-gray-300 rounded-full h-5 w-full">
+          <div
+            className="bg-blue-600 h-5 rounded-full transition-all duration-500"
+            style={{ width: `${porcentajeProgreso}%` }}
+            title={`Nivel ${nivelUsuario}: ${Math.round(porcentajeProgreso)}%`}
+          />
+        </div>
 
-      <div className="mx-65 mt-4 mb-8 w-full bg-gray-300 rounded-full h-5">
-        <div
-          className="bg-blue-600 h-5"
-          style={{ width: `${porcentajeProgreso}%`, transition: "width 0.5s ease" }}
-          title={`Progreso nivel ${nivelUsuario}: ${Math.round(porcentajeProgreso)}%`}
-        />
-      </div>
+        <h1 className="text-2xl font-bold mb-6 text-center">
+          English Exercises (Level {mapNivelUsuarioAEjercicio(nivelUsuario)})
+        </h1>
 
-      <h1 className="mx-65 text-2xl font-bold mb-4">
-        Exercise list (level {mapNivelUsuarioAEjercicio(nivelUsuario)} - Usuario nivel real: {nivelUsuario})
-      </h1>
-
-      <ul className="mx-65 mt-6">
-        {ejercicios
-          .filter((ej) => !ejerciciosResueltos.includes(ej._id))
-          .map((ej) => (
-            <li key={ej._id} className="mb-6 border-b pb-4">
-              <p>
-                <strong>Enunciado:</strong> {ej.enunciado}
-              </p>
-
-              <input
-                type="text"
-                placeholder="Tu respuesta"
-                value={respuestas[ej._id] || ""}
-                onChange={(e) => handleChange(e, ej._id)}
-                className="border rounded px-2 py-1 mt-2 mr-2"
-              />
-              <button
-                onClick={() => validarRespuesta(ej._id)}
-                className="bg-blue-500 text-white px-4 py-1 rounded"
-              >
-                Validar
-              </button>
-
-              {resultados[ej._id] !== undefined && (
-                <p className={`mt-2 ${resultados[ej._id] ? "text-green-600" : "text-red-600"}`}>
-                  {resultados[ej._id] ? "¡Correcto!" : "Incorrecto, intenta de nuevo."}
+        <ul>
+          {ejercicios
+            .filter((ej) => !ejerciciosResueltos.includes(ej._id))
+            .map((ej) => (
+              <li key={ej._id} className="mb-6 border-b pb-4">
+                <p className="mb-2">
+                  <strong>Statement:</strong> {ej.enunciado}
                 </p>
-              )}
-            </li>
-          ))}
-      </ul>
+
+                <input
+                  type="text"
+                  placeholder="Your answer"
+                  value={respuestas[ej._id] || ""}
+                  onChange={(e) => handleChange(e, ej._id)}
+                  className="border rounded px-3 py-2 mr-2 w-full md:w-auto"
+                />
+
+                <button
+                  onClick={() => validarRespuesta(ej._id)}
+                  className="bg-blue-500 text-white px-4 py-2 rounded mt-2 md:mt-0"
+                >
+                  Submit
+                </button>
+
+                {resultados[ej._id] !== undefined && (
+                  <p className={`mt-2 ${resultados[ej._id] ? "text-green-600" : "text-red-600"}`}>
+                    {resultados[ej._id] ? "Correct!" : "Incorrect, try again."}
+                  </p>
+                )}
+              </li>
+            ))}
+        </ul>
+      </div>
     </>
   );
 }

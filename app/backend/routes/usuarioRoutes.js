@@ -1,5 +1,7 @@
 import express from "express";
 import authMiddleware from "../middleware/authMiddleware.js";
+
+
 import {
   obtenerUsuarios,
   obtenerUsuario,
@@ -45,5 +47,6 @@ router.put("/progreso", authMiddleware, actualizarProgreso);
 router.get("/:id", obtenerUsuario);
 router.put("/:id", authMiddleware, actualizarRol);
 router.delete("/:id", authMiddleware, eliminarUsuario);
+
 
 export default router;

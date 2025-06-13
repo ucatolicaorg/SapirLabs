@@ -16,10 +16,11 @@ export function Login() {
     e.preventDefault();
 
     try {
+      // 1. Iniciar sesión y obtener token
       const { data } = await axios.post("http://localhost:5000/api/usuarios/login", formData);
-
       localStorage.setItem("token", data.token);
 
+      // 2. Obtener datos del usuario autenticado
       const userResponse = await axios.get("http://localhost:5000/api/usuarios/me", {
         headers: {
           Authorization: `Bearer ${data.token}`,
@@ -29,6 +30,10 @@ export function Login() {
       const usuario = userResponse.data;
       console.log("Usuario autenticado:", usuario);
 
+      // 3. Guardar userId en localStorage
+      localStorage.setItem("userId", usuario._id);
+
+      // 4. Redirigir según el rol
       switch (usuario.rol) {
         case 'admin':
           navigate('/admindash');

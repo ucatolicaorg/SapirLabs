@@ -1,9 +1,10 @@
-// middlewares/upload.js
+// upload.js
 import multer from "multer";
 import path from "path";
 import fs from "fs";
 import { fileTypeFromBuffer } from "file-type";
 
+// Storage correcto: filename completo
 const storage = multer.diskStorage({
   destination: "./uploads/",
   filename: (req, file, cb) =>
@@ -11,10 +12,10 @@ const storage = multer.diskStorage({
 });
 
 function fileFilter(req, file, cb) {
-  if (
-    path.extname(file.originalname).toLowerCase() !== ".pdf" ||
-    file.mimetype !== "application/pdf"
-  ) return cb(new Error("Solo PDFs permitidos"), false);
+  if (path.extname(file.originalname).toLowerCase() !== ".pdf" ||
+      file.mimetype !== "application/pdf") {
+    return cb(new Error("Solo PDFs permitidos"), false);
+  }
   cb(null, true);
 }
 
@@ -30,11 +31,9 @@ export const verifyMagic = async (req, res, next) => {
   const type = await fileTypeFromBuffer(buffer);
   if (!type || type.mime !== "application/pdf") {
     fs.unlinkSync(req.file.path);
-    return next(new Error("El contenido no es un PDF válido"));
+    const err = new Error("El contenido no es un PDF válido");
+    err.status = 400;
+    return next(err);
   }
   next();
-}
-
-export default upload;
-
-
+};

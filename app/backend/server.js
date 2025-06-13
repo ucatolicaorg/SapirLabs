@@ -1,60 +1,41 @@
 import express from "express";
-import mongoose from "mongoose";
-import dotenv from "dotenv";
 import cors from "cors";
 import morgan from "morgan";
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
+import conectarDB from "./config/db.js";
 
-// Importar rutas
-import usuarioRoutes from "./routes/usuarioRoutes.js";
+// Rutas
+import usuarioRoutes from './routes/usuarioRoutes.js';
 import ejercicioRoutes from "./routes/ejercicioRoutes.js";
 import archivoRoutes from "./routes/archivoRoutes.js";
 
-
-dotenv.config(); 
-
+// Configurar entorno
+dotenv.config();
 const app = express();
+const PORT = process.env.PORT || 5000;
 
+// Obtener __dirname para ESModules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Middlewares
-app.use(express.json()); 
-app.use(cors({
-  origin: "http://localhost:5173",
-  credentials: true
-}));
+app.use(cors());
+app.use(morgan("dev"));
+app.use(express.json());
 
-app.use(morgan("dev")); 
+// Servir archivos estáticos (PDFs, imágenes, etc.)
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Conectar a MongoDB
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => console.log(" Conectado a MongoDB"))
-.catch(err => console.error(" Error al conectar MongoDB:", err));
-
-
-// Rutas
+// Rutas de la API
 app.use("/api/usuarios", usuarioRoutes);
 app.use("/api/ejercicios", ejercicioRoutes);
 app.use("/api/archivos", archivoRoutes);
 
-// Ruta de prueba
-app.get("/", (req, res) => {
-  res.send("API funcionando correctamente");
-});
-
-app.use((err, req, res, next) => {
-  console.error("Error de API:", err);
-  // Si el archivo ya fue subido y error sucede luego, elimínalo
-  if (req.file?.path && !res.headersSent) {
-    try { fs.unlinkSync(req.file.path); } catch {}
-  }
-  const status = err.status || 500;
-  res.status(status).json({ error: err.message || 'Error interno del servidor' });
-});
-
-// Iniciar servidor
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(` Servidor corriendo en http://localhost:${PORT}`);
+// Conectar a DB y levantar servidor
+conectarDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
+  });
 });
