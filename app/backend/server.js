@@ -43,7 +43,15 @@ app.get("/", (req, res) => {
   res.send("API funcionando correctamente");
 });
 
-
+app.use((err, req, res, next) => {
+  console.error("Error de API:", err);
+  // Si el archivo ya fue subido y error sucede luego, elimínalo
+  if (req.file?.path && !res.headersSent) {
+    try { fs.unlinkSync(req.file.path); } catch {}
+  }
+  const status = err.status || 500;
+  res.status(status).json({ error: err.message || 'Error interno del servidor' });
+});
 
 // Iniciar servidor
 const PORT = process.env.PORT || 5000;

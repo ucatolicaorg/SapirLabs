@@ -29,6 +29,14 @@ export function App() {
         Registrate
       </button>
     </div>
+  <div class="flex flex-col items-center justify-center p-4 rounded-2xl bg-gray-900 shadow-xl">
+    <p class="p-4 text-center">Bienvenido a sapirLabs!</p>
+    <p class="p-4 text-center leading-snug">
+    Nos alegra que formes parte de esta innovadora plataforma diseñada especialmente para estudiantes
+    <br /> de sistemas de la Universidad Católica de Colombia. Aquí podrás fortalecer tus conocimientos en
+    <br /> programación, inglés y ciencias básicas de forma interactiva, organizada y efectiva.
+    </p>
+  </div>
     </>
   );
 }

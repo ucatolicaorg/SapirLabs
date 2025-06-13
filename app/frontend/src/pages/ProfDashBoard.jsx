@@ -1,6 +1,18 @@
 import { ProfNavBar } from "../components/profNavBar";
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
+
+// Configuración global de axios con interceptor para token Bearer
+axios.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
 export function ProfDashBoard() {
   const [ejercicio, setEjercicio] = useState({
@@ -9,29 +21,22 @@ export function ProfDashBoard() {
     enunciado: "",
     respuesta: "",
   });
-
   const [estudiantes, setEstudiantes] = useState([]);
+  const [pdfFile, setPdfFile] = useState(null);
 
-      useEffect(() => {
-        const getEstudiantes = async () => {
-            try {
-                const token = localStorage.getItem("token");
-                const { data } = await axios.get("http://localhost:5000/api/usuarios/rol/estudiante/", {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                setEstudiantes(data);
-
-                const initialRoles = {};
-                data.forEach((usuario) => {
-                    initialRoles[usuario._id] = usuario.rol;
-                });
-      
-            } catch (error) { 
-                console.error(error);
-            }
-        };
-        getEstudiantes();
-    }, []);
+  useEffect(() => {
+    const getEstudiantes = async () => {
+      try {
+        const { data } = await axios.get(
+          "http://localhost:5000/api/usuarios/rol/estudiante/"
+        );
+        setEstudiantes(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getEstudiantes();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -41,39 +46,50 @@ export function ProfDashBoard() {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const token = localStorage.getItem("token");
-      const res = await axios.post(
-        "http://localhost:5000/api/ejercicios/crear",
-        ejercicio,{
-      headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  }
-      );
-      console.log("Ejercicio creado:", res.data);
-      alert("Ejercicio creado correctamente");
-    } catch (error) {
-      console.error("Error al crear ejercicio:", error);
-      alert("Hubo un error al crear el ejercicio");
+  function handleFileChange(e) {
+    const file = e.target.files[0];
+    if (file && file.type !== "application/pdf") {
+      alert("Solo se permiten archivos PDF.");
+      e.target.value = null;
+      setPdfFile(null);
+      return;
     }
-  };
+    setPdfFile(file);
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("competencia", ejercicio.competencia);
+    formData.append("nivel", ejercicio.nivel);
+    formData.append("enunciado", ejercicio.enunciado);
+    formData.append("respuesta", ejercicio.respuesta);
+    if (pdfFile) formData.append("archivo", pdfFile);
+
+    try {
+      await axios.post(
+        "http://localhost:5000/api/archivos/subir",
+        formData
+      );
+      alert("Ejercicio creado" + (pdfFile ? " con PDF incluido." : " sin PDF."));
+    } catch (err) {
+      console.error(err);
+      alert("Hubo un error al crear el ejercicio.");
+    }
+  }
+
 
   return (
     <>
       <ProfNavBar />
       <div className="flex flex-col items-center justify-center">
-        <h1 className="font-bold text-6xl">
-          Creación de ejercicios
-        </h1>
+        <h1 className="font-bold text-6xl">Creación de ejercicios</h1>
       </div>
 
       <div className="flex flex-col items-center justify-center gap-20 my-20 ml-64">
-    
-
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          {/* Competencia */}
           <label>Competencia:</label>
           <select
             id="competencia"
@@ -88,6 +104,7 @@ export function ProfDashBoard() {
             <option value="cod">Codificación</option>
           </select>
 
+          {/* Nivel */}
           <label>Nivel:</label>
           <select
             id="nivel"
@@ -102,6 +119,7 @@ export function ProfDashBoard() {
             <option value={3}>Avanzado</option>
           </select>
 
+          {/* Enunciado */}
           <label>Enunciado:</label>
           <input
             type="text"
@@ -111,6 +129,7 @@ export function ProfDashBoard() {
             className="px-2 py-1 border-2 border-gray-200 rounded hover:border-blue-500 caret-blue-500"
           />
 
+          {/* Respuesta */}
           <label>Respuesta:</label>
           <input
             type="text"
@@ -118,6 +137,29 @@ export function ProfDashBoard() {
             value={ejercicio.respuesta}
             onChange={handleChange}
             className="px-2 py-1 border-2 border-gray-200 rounded hover:border-blue-500 caret-blue-500"
+          />
+
+          {/* PDF opcional */}
+          <label
+            htmlFor="pdfFile"
+            className="mt-4 text-sm font-medium text-gray-200"
+          >
+            Subir PDF (opcional):
+          </label>
+          <input
+            type="file"
+            id="pdfFile"
+            name="pdfFile"
+            accept="application/pdf"
+            onChange={handleFileChange}
+            className="
+              block w-full cursor-pointer bg-gray-700 border border-gray-500 text-white
+              file:mr-4 file:py-2 file:px-4 file:border-0
+              file:text-sm file:font-medium
+              file:bg-blue-600 file:text-white
+              hover:file:bg-blue-700
+              focus:outline-none focus:ring-2 focus:ring-blue-500
+            "
           />
 
           <button
@@ -128,7 +170,6 @@ export function ProfDashBoard() {
           </button>
         </form>
       </div>
-   
     </>
   );
 }

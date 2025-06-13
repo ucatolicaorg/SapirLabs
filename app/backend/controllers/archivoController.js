@@ -1,24 +1,10 @@
-// controllers/archivoController.js
-import Archivo from "../models/archivo.js";
-import Usuario from "../models/usuario.js";
+// archivoController.js
+import Archivo from "../models/Archivo.js";
+import Usuario from "../models/Usuario.js";
 
-// Obtiene archivos de un usuario
-export const obtenerArchivosUsuario = async (req, res) => {
-  try {
-    const usuario = await Usuario.findById(req.params.userId).populate("archivos");
-    if (!usuario) return res.status(404).json({ mensaje: "Usuario no encontrado" });
-    res.json(usuario.archivos);
-  } catch (err) {
-    res.status(500).json({ mensaje: "Error obteniendo archivos", error: err.message });
-  }
-};
+export const subirArchivo = async (req, res, next) => {
+  if (!req.file) return res.status(400).json({ mensaje: "Se requiere un archivo PDF" });
 
-// Subir y asociar archivo a usuario
-export const subirArchivo = async (req, res) => {
-  if (!req.file) return res.status(400).json({ mensaje: "Se requiere un archivo PDF"});
-  const a = req.file;
-
-  res.status(201).json({contenido: a})
   try {
     const archivo = new Archivo({
       nombre: req.file.originalname,
@@ -33,9 +19,21 @@ export const subirArchivo = async (req, res) => {
 
     res.status(201).json({ mensaje: "Archivo subido", archivo });
   } catch (err) {
-    res.status(400).json({ mensaje: "Error al subir", error: err.message });
+    next(err);
   }
 };
+
+// Obtiene archivos de un usuario
+export const obtenerArchivosUsuario = async (req, res) => {
+  try {
+    const usuario = await Usuario.findById(req.params.userId).populate("archivos");
+    if (!usuario) return res.status(404).json({ mensaje: "Usuario no encontrado" });
+    res.json(usuario.archivos);
+  } catch (err) {
+    res.status(500).json({ mensaje: "Error obteniendo archivos", error: err.message });
+  }
+};
+
 
 // Opcional: eliminar archivo
 export const eliminarArchivo = async (req, res) => {
