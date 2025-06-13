@@ -133,12 +133,12 @@ export function Coding() {
             .map((ej) => (
               <li key={ej._id} className="mb-6 border-b pb-4">
                 <p className="mb-2">
-                  <strong>Statement:</strong> {ej.enunciado}
+                  <strong>Enunciado:</strong> {ej.enunciado}
                 </p>
 
                 <input
                   type="text"
-                  placeholder="Your answer"
+                  placeholder="Tu respuesta"
                   value={respuestas[ej._id] || ""}
                   onChange={(e) => handleChange(e, ej._id)}
                   className="border rounded px-3 py-2 mr-2 w-full md:w-auto"
@@ -148,7 +148,7 @@ export function Coding() {
                   onClick={() => validarRespuesta(ej._id)}
                   className="bg-blue-500 text-white px-4 py-2 rounded mt-2 md:mt-0"
                 >
-                  Submit
+                  Validar
                 </button>
 
                 {resultados[ej._id] !== undefined && (
